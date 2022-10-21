@@ -37,6 +37,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # apps
+    "budget",
+    "user_auth",
+    "income",
+
+    # third party
+     "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -76,7 +84,7 @@ WSGI_APPLICATION = "budget_backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR / "budgetbuddy.db",
     }
 }
 
