@@ -20,3 +20,7 @@ clean:
 	@echo "Cleaning up"
 	rm -rf .pytest_cache
 
+superuser:
+	@echo "Creating superuser"
+	python manage.py createsuperuser
+
