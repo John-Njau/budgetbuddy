@@ -2,6 +2,9 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import BlogsView from "../views/Blogs/BlogsView.vue";
+import LoginView from "../views/Auth/LoginView.vue";
+import SignUpView from "../views/Auth/SignupView.vue";
+import ErrorPage from "../views/ErrorPageView";
 
 Vue.use(VueRouter);
 
@@ -32,6 +35,26 @@ const routes = [
     props: true,
     component: () =>
       import(/* webpackChunkName: "blog" */ "../views/Blogs/BlogView.vue"),
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: LoginView,
+  },
+  {
+    path: "/signup",
+    name: "signup",
+    component: SignUpView,
+  },
+  {
+    path: "/reset-password",
+    name: "reset-password",
+    component: () => import("../views/Auth/ResetView.vue"),
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "error",
+    component: ErrorPage,
   },
 ];
 

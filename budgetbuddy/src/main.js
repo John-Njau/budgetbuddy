@@ -11,7 +11,7 @@ import "bulma/css/bulma.css";
 Vue.config.productionTip = false;
 Vue.use(Buefy);
 
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = "http://localhost:8000/";
 
 new Vue({
   router,
