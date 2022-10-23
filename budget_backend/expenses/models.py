@@ -10,6 +10,7 @@ class Category(models.Model):
 
 
 class Expense(models.Model):
+    name = models.CharField(max_length=50)
     amount = models.FloatField()
     notes = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
