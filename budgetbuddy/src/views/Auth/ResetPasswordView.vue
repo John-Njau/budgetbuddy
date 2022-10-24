@@ -1,6 +1,6 @@
 <template>
     <section>
-      <div class="reset-page card has-text-centered mb-3 mb-lg-0">
+      <div class="reset-page card  mb-3 mb-lg-0">
         <form @submit.prevent="SetNewPassword" class="p-4 mb-3">
           <div class="has-text-centered">
             <div class="fa fa-key"> Reset Password</div>
@@ -22,12 +22,34 @@
               />
             </label>
           </div>
+          <div class="">
+              <!-- Password input -->
+              <div class="field m-1">
+                <label class="label">Password <input
+                  type="password"
+                  id=""
+                  class="control"
+                  placeholder="Password"
+                  v-model="password1"
+                /></label>
+                
+              </div>
+              <div class="field m-1">
+                <label class="label">Confirm Password <input
+                  type="password"
+                  class="control"
+                  placeholder="Confirm Password"
+                  v-model="password2"
+                /></label>
+                
+              </div>
+            </div>
           <!-- Submit button -->
-          <div class="field mb-4 form-group">
+          <div class="field mb-4 form-group has-text-centered">
             <button
               class="button is-sm outline-2 has-text-white"
               style="background-color: rgb(30, 60, 114; height: 40px; font-weight: 500;">
-              RESET MY PASSWORD
+              SAVE PASSWORD
             </button>
           </div>
          

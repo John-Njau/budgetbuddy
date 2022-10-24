@@ -56,7 +56,7 @@
             </div>
             <div class="field mt-3 p-0">
               <label class="label">
-                <a href="/reset-password" class="text-secondary">
+                <a href="/forgot-password" class="text-secondary">
                   Forgot your password?
                 </a>
               </label>
