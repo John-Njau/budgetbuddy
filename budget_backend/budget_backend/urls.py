@@ -25,11 +25,11 @@ from rest_framework_simplejwt.views import (
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/budget/", include("budget.urls")),
-    path("api/income", include("income.urls")),
+    path("api/income/", include("income.urls")),
     path("api/expenses/", include("expenses.urls")),
     path("api/user-auth/", include("user_auth.urls")),
     path("api/blogs/", include("blogs.urls")),
-    path("api/savings", include("savings.urls")),
+    path("api/savings/", include("savings.urls")),
     path("api-auth/", include("rest_framework.urls")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),

@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 # import APIView
@@ -8,25 +9,46 @@ from blogs.models import Article, Author
 from blogs.serializers import ArticleSerializer, AuthorSerializer
 
 
-class ArticleView(APIView):
+class ArticleListView(APIView):
     def get(self, request):
         articles = Article.objects.all()
         serializer = ArticleSerializer(articles, many=True)
-        return Response({"articles": serializer.data})
+        return Response(serializer.data)
 
     def post(self, request):
-        article = request.data.get("article")
+        article = request.data.get('article')
         serializer = ArticleSerializer(data=article)
         if serializer.is_valid(raise_exception=True):
             article_saved = serializer.save()
+        return Response({"success": "Article '{}' created successfully".format(article_saved.title)})
+
+
+class ArticleView(APIView):
+    def get_object(self, pk):
+        try:
+            return Article.objects.get(pk=pk)
+        except Article.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        article = self.get_object(pk)
+        serializer = ArticleSerializer(article)
+        return Response({"article": serializer.data})
+
+    def put(self, request, pk, format=None):
+        article = self.get_object(pk)
+        data = request.data.get("article")
+        serializer = ArticleSerializer(instance=article, data=data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            article_saved = serializer.save()
         return Response(
-            {"success": "Article '{}' created successfully".format(article_saved.title)}
+            {"success": "Article '{}' updated successfully".format(article_saved.title)}
         )
 
-    def put(self, request, pk):
-        saved_article = get_object_or_404(Article.objects.all(), pk=pk)
+    def patch(self, request, pk):
+        article = self.get_object(pk)
         data = request.data.get("article")
-        serializer = ArticleSerializer(instance=saved_article, data=data, partial=True)
+        serializer = ArticleSerializer(instance=article, data=data, partial=True)
         if serializer.is_valid(raise_exception=True):
             article_saved = serializer.save()
         return Response(
@@ -34,7 +56,7 @@ class ArticleView(APIView):
         )
 
     def delete(self, request, pk):
-        article = get_object_or_404(Article.objects.all(), pk=pk)
+        article = self.get_object(pk)
         article.delete()
         return Response(
             {"message": "Article with id `{}` has been deleted.".format(pk)}, status=204
@@ -71,4 +93,13 @@ class AuthorView(APIView):
         author.delete()
         return Response(
             {"message": "Author with id `{}` has been deleted.".format(pk)}, status=204
+        )
+
+    def patch(self, request, pk, format=None):
+        author = self.get_object(pk=pk)
+        serializer = AuthorSerializer(instance=author, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            author_saved = serializer.save()
+        return Response(
+            {"success": "Author '{}' updated successfully".format(author_saved.name)}
         )
