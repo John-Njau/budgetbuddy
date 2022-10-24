@@ -202,6 +202,9 @@ export default {
       }
     },
   },
+  mounted() {
+      document.title = "BuddyBudget | Sign Up";
+    },
 };
 </script>
     <style scoped>

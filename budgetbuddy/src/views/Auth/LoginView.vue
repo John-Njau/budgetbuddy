@@ -12,7 +12,7 @@
         <div class="py-3 px-5">
           <form @submit.prevent="SubmitForm">
             <div class="has-text-centered">
-              <div class="fa fa-user"> Login</div>
+              <div class="fa fa-user">Login</div>
             </div>
             <!-- Email input -->
             <div class="field">
@@ -86,7 +86,7 @@ export default {
     };
   },
   mounted() {
-    document.title = "Login";
+    document.title = "BuddyBudget | Log In";
   },
 
   methods: {

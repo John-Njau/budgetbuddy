@@ -47,9 +47,19 @@ const routes = [
     component: SignUpView,
   },
   {
+    path: "/forgot-password",
+    name: "forgot-password",
+    component: () => import("../views/Auth/ForgotPasswordView.vue"),
+  },
+  {
     path: "/reset-password",
     name: "reset-password",
-    component: () => import("../views/Auth/ResetView.vue"),
+    component: () => import("../views/Auth/ResetPasswordView.vue"),
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    component: () => import("../views/ProfileView.vue"),
   },
   {
     path: "/:catchAll(.*)",

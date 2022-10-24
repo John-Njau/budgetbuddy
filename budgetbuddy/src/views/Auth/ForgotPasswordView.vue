@@ -1,0 +1,119 @@
+<template>
+  <section>
+    <div class="reset-page card has-text-centered mb-3 mb-lg-0">
+      <form @submit.prevent="ResetPassword" class="p-4 mb-3">
+        <div class="has-text-centered">
+          <div class="fa fa-key"> Reset Password</div>
+        </div>
+        <div class="has-text-centered m-4">
+          <p>
+            Enter your registered email. We'll send you password reset
+            instructions.
+          </p>
+        </div>
+        <!-- Email input -->
+        <div class="field mb-4">
+          <label class="label text-white" for="form3Example3">
+            Email
+            <input
+              type="email"
+              class="form-control"
+              v-model="email"
+              placeholder="xyz@gmail.com"
+            />
+          </label>
+        </div>
+        <!-- Submit button -->
+        <div class="field mb-4 form-group">
+          <button
+            class="button is-sm outline-2 has-text-white"
+            style="background-color: rgb(30, 60, 114; height: 40px; font-weight: 500;"
+          >
+            RESET MY PASSWORD
+          </button>
+        </div>
+        <div class="text-white p-0">
+          Back to
+          <a href="/login" class="text-secondary"> Login </a>
+        </div>
+      </form>
+    </div>
+  </section>
+</template>
+<script>
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      email: "",
+      password: "",
+      errors: [],
+    };
+  },
+  mounted() {
+    document.title = "Login";
+  },
+
+  methods: {
+    async ResetPassword() {
+      axios.defaults.headers.common["Authorization"] = "";
+
+      localStorage.removeItem("token");
+
+      const formData = {
+        email: this.email,
+        password: this.password,
+      };
+
+      await axios
+        .post("/api/v1/token/login/", formData)
+        .then((response) => {
+          const token = response.data.auth_token;
+
+          this.$store.commit("setToken", token);
+
+          axios.defaults.headers.common["Authorization"] = "Token" + token;
+
+          localStorage.setItem("token", token);
+
+          const toPath = this.$route.query.to || "/";
+
+          this.$router.push(toPath);
+        })
+
+        .catch((error) => {
+          if (error.response) {
+            for (const property in error.response.data) {
+              this.errors.push(`${property}: ${error.response.data[property]}`);
+            }
+          } else {
+            this.errors.push(error.message);
+
+            console.log(JSON.stringify(error));
+          }
+        });
+    },
+  },
+  mounted() {
+      document.title = "BuddyBudget | Forgot Password";
+    },
+};
+</script>
+
+
+<style scoped>
+input {
+  border: 1px solid rgb(0, 0, 0, 0.4);
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.reset-page {
+  background-color: rgb(30, 60, 114);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
