@@ -6,7 +6,7 @@ serve:
 	@echo "Serving on http://localhost:8000"
 	python manage.py runserver
 
-migration:
+migrations:
 	@echo "Creating migration"
 	python manage.py makemigrations
 	@echo "Migrating"

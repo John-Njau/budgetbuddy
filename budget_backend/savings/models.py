@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class SavingTarget(models.Model):
     name = models.CharField(max_length=50)
     amount = models.FloatField()
@@ -23,5 +24,5 @@ class Saving(models.Model):
     target_amount = models.ForeignKey(SavingTarget, on_delete=models.CASCADE)
     date = models.DateField()
 
-    def __str__(self):
-        return self.amount
+    def __str__(self) -> str:
+        return self.target_amount.name

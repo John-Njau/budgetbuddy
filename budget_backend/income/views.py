@@ -1,52 +1,122 @@
+from email.policy import HTTP
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from django.http import Http404
 
 from .models import Income, Source
 from .serializers import IncomeSerializer, SourceSerializer
 
 
 # Create your views here.
-class IncomeViewSet(viewsets.ModelViewSet):
-    queryset = Income.objects.all()
-    serializer_class = IncomeSerializer
+class IncomeListView(APIView):
+    def get(self, request):
+        incomes = Income.objects.all()
+        serializer = IncomeSerializer(incomes, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = IncomeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+class IncomeView(APIView):
+    def get_object(self, pk):
+        try:
+            return Income.objects.get(pk=pk)
+        except Income.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        income =self.get_object(pk)
+        serializer = IncomeSerializer(income)
+        return Response(serializer.data)
 
 
-class SourceView(APIView):
+    def put(self, request, pk,format=None):
+        income =self.get_object(pk)
+        serializer = IncomeSerializer(income, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors,status=HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk,format=None):
+        income = self.get_object(Income, pk=pk)
+        income.delete()
+        return Response(status=204)
+
+    def patch(self, request, pk,format=None):
+        income = self.get_object(Income, pk=pk)
+        serializer = IncomeSerializer(income, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors,status=HTTP_400_BAD_REQUEST)
+
+class SourceListView(APIView):
     def get(self, request):
         sources = Source.objects.all()
         serializer = SourceSerializer(sources, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        source = request.data.get('source')
-        serializer = SourceSerializer(data=source)
-        if serializer.is_valid(raise_exception=True):
-            source_saved = serializer.save()
-        return Response({"success": "Source '{}' created successfully".format(source_saved.name)})
+        serializer = SourceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
-    def put(self, request, pk):
-        saved_source = get_object_or_404(Source.objects.all(), pk=pk)
-        data = request.data.get('source')
-        serializer = SourceSerializer(instance=saved_source, data=data, partial=True)
-        if serializer.is_valid(raise_exception=True):
-            source_saved = serializer.save()
+class SourceView(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Source.objects.get(pk=pk)
+        except Source.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        source =self.get_object(pk)
+        serializer = SourceSerializer(source)
+        return Response(serializer.data)
+
+
+    def put(self, request, pk,format=None):
+        source =self.get_object(pk)
+        serializer = SourceSerializer(source, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
         return Response({
-            "success": "Source '{}' updated successfully".format(source_saved.name)
-        })
+            "success": "Source '{}' updated successfully".format(source.name)
+        },serializer.errors,status=HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk):
-        source = get_object_or_404(Source.objects.all(), pk=pk)
+    def delete(self, request, pk,format=None):
+        source = self.get_object(Source, pk=pk)
         source.delete()
         return Response({
             "message": "Source with id `{}` has been deleted.".format(pk)
-        }, status=204)
+        },status=204)
 
-    def patch(self, request, pk):
-        source = get_object_or_404(Source.objects.all(), pk=pk)
+    # def put(self, request, pk):
+    #     saved_source = get_object_or_404(Source.objects.all(), pk=pk)
+    #     data = request.data.get('source')
+    #     serializer = SourceSerializer(instance=saved_source, data=data, partial=True)
+    #     if serializer.is_valid(raise_exception=True):
+    #         source_saved = serializer.save()
+    #     return Response({
+    #         "success": "Source '{}' updated successfully".format(source_saved.name)
+    #     })
+
+    def patch(self, request, pk,format=None):
+        source = self.get_object(Source, pk=pk)
         serializer = SourceSerializer(source, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors)
+        return Response(serializer.errors,status=HTTP_400_BAD_REQUEST)
+

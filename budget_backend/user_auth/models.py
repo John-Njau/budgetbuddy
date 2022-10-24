@@ -30,6 +30,7 @@ class UserManager(BaseUserManager):
         """Create and save a regular User with the given email and password."""
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
+        extra_fields.setdefault("is_active", True)
         return self._create_user(email, password, first_name, last_name, **extra_fields)
 
     def create_superuser(

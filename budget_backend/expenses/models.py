@@ -8,6 +8,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+
 
 class Expense(models.Model):
     name = models.CharField(max_length=50)
@@ -21,4 +25,4 @@ class Expense(models.Model):
 
     # TODO add user field
     def __str__(self):
-        return self.title
+        return self.name
