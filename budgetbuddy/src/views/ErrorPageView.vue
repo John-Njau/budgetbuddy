@@ -1,17 +1,15 @@
 <template>
   <section class="error-page">
-      <h2>404</h2>
-      <p>Page not found</p>
-      <button>
-        <router-link to="/" class="button">Home</router-link>
-      </button>
+    <h2>404</h2>
+    <p>Page not found</p>
+    <button>
+      <router-link to="/" class="button">Home</router-link>
+    </button>
   </section>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
@@ -24,5 +22,4 @@ export default {
   width: 100vw;
   background-color: #2b387d;
 }
-
 </style>
