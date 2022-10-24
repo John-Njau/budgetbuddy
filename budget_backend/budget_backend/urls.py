@@ -23,6 +23,7 @@ urlpatterns = [
     path("api/", include("expenses.urls")),
     path("api/", include("user_auth.urls")),
     path("",include("blogs.urls")),
+    path("", include("savings.urls")),
     path("api-auth/", include("rest_framework.urls")),
 
 ]
