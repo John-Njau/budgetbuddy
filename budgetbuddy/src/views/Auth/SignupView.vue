@@ -159,7 +159,7 @@ export default {
 
       if (!this.errors.length) {
         axios
-          .post("http://127.0.0.1:8000/api/users/", {
+          .post("/api/user-auth/users/", {
             first_name: this.firstName,
             last_name: this.lastName,
             email: this.email,

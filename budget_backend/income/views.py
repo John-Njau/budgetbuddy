@@ -8,6 +8,7 @@ from .serializers import IncomeSerializer, SourceSerializer
 
 # Create your views here.
 class IncomeListView(APIView):
+
     def get(self, request):
         incomes = Income.objects.all()
         serializer = IncomeSerializer(incomes, many=True)
