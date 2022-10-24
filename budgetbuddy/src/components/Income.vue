@@ -5,7 +5,7 @@
       <button class="button is-small" @click="addSource()">Add Source</button>
       <!-- plus icon -->
       <div class="income-form" v-if="isActive">
-        <form   action="" @submit.prevent="saveNewSource">
+        <form action="" @submit.prevent="saveNewSource">
           <div class="field">
             <label class="label">Source Name</label>
             <div class="control">
@@ -58,7 +58,12 @@
               <button class="button is-small is-link">Save</button>
             </div>
             <div class="control">
-              <button class="button is-small is-danger is-light">Clear</button>
+              <button
+                class="button is-small is-danger is-light"
+                @click="clearInputs"
+              >
+                Clear
+              </button>
             </div>
           </div>
         </form>
@@ -86,7 +91,10 @@
               <td>{{ source.end_date }}</td>
               <td>{{ source.notes }}</td>
               <td>
-                <button class="button is-small is-link" @click="editSource(source.id)">
+                <button
+                  class="button is-small is-link"
+                  @click="editSource(source.id)"
+                >
                   Edit
                 </button>
                 <button
@@ -129,7 +137,6 @@ export default {
     };
   },
   methods: {
-
     // toggle the form
     addSource() {
       this.isActive = !this.isActive;
@@ -186,6 +193,13 @@ export default {
           console.log(error);
         });
     },
+    clearInputs() {
+      this.source_name = "";
+      this.amount = "";
+      this.start_date = "";
+      this.end_date = "";
+      this.notes = "";
+    },
   },
 
   mounted() {
@@ -199,7 +213,6 @@ export default {
       let total = 0;
       this.sources.forEach((source) => {
         this.total += source.amount;
-
 
         console.log(source.amount);
       });

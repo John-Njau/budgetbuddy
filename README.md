@@ -1,4 +1,6 @@
 # budgetbuddy
+[![wakatime](https://wakatime.com/badge/github/John-Njau/budgetbuddy.svg)](https://wakatime.com/badge/github/John-Njau/budgetbuddy)
+
 
 ## Description
 An open source application to help one budget and keep track of their spending.
